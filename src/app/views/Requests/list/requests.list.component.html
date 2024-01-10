@@ -1,0 +1,76 @@
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row ngPreserveWhitespaces>
+      <c-col xs="12" style="padding-bottom: 8px">
+        <button cButton color="secondary" routerLink="/requests/add">
+          ajouter une demande
+        </button>
+      </c-col>
+      <table
+        [hover]="true"
+        [responsive]="true"
+        [striped]="true"
+        [bordered]="true"
+        cTable
+        class="mb-0 border"
+      >
+        <thead>
+          <tr>
+            <th scope="col">numero de demande</th>
+            <th scope="col">numero de compte</th>
+            <th scope="col">utilisateur</th>
+            <th scope="col">type de carte</th>
+            <th scope="col">creation date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let request of requests"
+            routerLink="/requests/details/{{ request.id }}"
+          >
+            <td>
+              <ng-container>
+                {{ request.id }}
+              </ng-container>
+            </td>
+            <td>
+              <ng-container>
+                {{ request.account?.accountNumber }}
+              </ng-container>
+            </td>
+            <td>
+              <ng-container>
+                {{ request.id }}
+              </ng-container>
+            </td>
+            <td>
+              <ng-container>
+                {{ request.cardType?.label }}
+              </ng-container>
+            </td>
+            <td>
+              <ng-container>
+                {{ request.creationDate | date }}
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </c-row>
+  </c-card-body>
+</c-card>
+
+<c-pagination>
+  <c-page-item [disabled]="numPage === 0">
+    <a cPageLink (click)="navigateToPage(numPage - 1)">précedent</a>
+  </c-page-item>
+  <c-page-item
+    *ngFor="let page of pagination.pages"
+    [active]="page === pagination.numPage + 1"
+  >
+    <a cPageLink (click)="navigateToPage(page - 1)">{{ page }}</a>
+  </c-page-item>
+  <c-page-item [disabled]="numPage === maxPages - 1">
+    <a cPageLink (click)="navigateToPage(numPage + 1)">suivant</a>
+  </c-page-item>
+</c-pagination>

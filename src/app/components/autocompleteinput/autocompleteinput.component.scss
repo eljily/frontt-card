@@ -1,0 +1,24 @@
+.search {
+  z-index: 1060;
+  cursor: pointer;
+  position: absolute;
+	padding: 10px;
+  background-color: #fff;
+  opacity: 0.98;
+  width: 100%;
+  border: solid 1px #b1b7c1;
+}
+
+.search-result {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.search-result:hover {
+    background: #868585;
+    color: #fff;
+}

@@ -1,0 +1,223 @@
+<c-card class="mb-4">
+  <c-card-body>
+    <c-row ngPreserveWhitespaces>
+      <c-col xs="12" style="padding-bottom: 8px">
+        <button cButton color="secondary" (click)="saveUser()">Ajouter</button>
+      </c-col>
+      <c-col xs="12">
+        <table
+          [hover]="true"
+          [responsive]="true"
+          [striped]="true"
+          [bordered]="true"
+          cTable
+          class="mb-0 border"
+        >
+          <thead>
+            <tr>
+              <th scope="col">Username</th>
+              <th scope="col">Email</th>
+              <th scope="col">Password</th>
+              <th scope="col">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users" id="all_users">
+              <td>
+                <ng-container
+                  *ngIf="!editCache[user.username].edit; else usernameInputTpl"
+                >
+                  {{ user.username }}
+                </ng-container>
+                <ng-template #usernameInputTpl>
+                  <input
+                    cFormControl
+                    id="username"
+                    type="text"
+                    [(ngModel)]="editCache[user.username].data.username"
+                  />
+                </ng-template>
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="!editCache[user.username].edit; else emailInputTpl"
+                >
+                  {{ user.email }}
+                </ng-container>
+                <ng-template #emailInputTpl>
+                  <input
+                    cFormControl
+                    id="email"
+                    type="text"
+                    [(ngModel)]="editCache[user.username].data.email"
+                  />
+                </ng-template>
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="!editCache[user.username].edit; else passwordInputTpl"
+                >
+                </ng-container>
+                <ng-template #passwordInputTpl>
+                  <input
+                    cFormControl
+                    id="password"
+                    type="password"
+                    [(ngModel)]="editCache[user.username].data.password"
+                  />
+                </ng-template>
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="!editCache[user.username].edit; else roleInputTpl"
+                >
+                  <div *ngFor="let r of roles">
+                    <c-form-check>
+                      <input
+                        [checked]="findRole(r.name, user.username)"
+                        cFormCheckInput
+                        type="checkbox"
+                        disabled
+                      />
+                    </c-form-check>
+                    <label>
+                      {{ r.name }}
+                    </label>
+                  </div>
+                </ng-container>
+                <ng-template #roleInputTpl>
+                  <div *ngFor="let r of roles">
+                    <c-form-check>
+                      <input
+                        [checked]="findRole(r.name, user.username)"
+                        cFormCheckInput
+                        type="checkbox"
+                        (change)="onCheckboxChange($event, user.username, r)"
+                      />
+                    </c-form-check>
+                    <label>
+                      {{ r.name }}
+                    </label>
+                  </div>
+                </ng-template>
+              </td>
+
+              <td>
+                <div class="editable-row-operations">
+                  <ng-container
+                    *ngIf="!editCache[user.username].edit; else saveTpl"
+                  >
+                    <button
+                      cButton
+                      color="dark"
+                      variant="outline"
+                      (click)="startEdit(user.username)"
+                      [disabled]="!hasModificationRights"
+                    >
+                      <svg
+                        cIcon
+                        name="cil-pen"
+                        size="sm"
+                        title="Paper Plane Icon"
+                      ></svg>
+                    </button>
+                    <button
+                      cButton
+                      color="dark"
+                      variant="outline"
+                      (click)="confirmeDelete(user.username)"
+                      [disabled]="!hasModificationRights"
+                    >
+                      <svg
+                        cIcon
+                        name="cil-trash"
+                        size="sm"
+                        title="Supprimer un utilisateur"
+                      ></svg>
+                    </button>
+                  </ng-container>
+
+                  <ng-template #saveTpl>
+                    <button
+                      cButton
+                      color="dark"
+                      variant="outline"
+                      (click)="saveEdit(user.username)"
+                      [disabled]="!hasModificationRights"
+                    >
+                      <svg
+                        cIcon
+                        name="cil-check-alt"
+                        size="sm"
+                        title="Paper Plane Icon"
+                      ></svg>
+                    </button>
+                    <button
+                      cButton
+                      color="dark "
+                      variant="outline"
+                      (click)="cancelEdit(user.username)"
+                      [disabled]="!hasModificationRights"
+                    >
+                      <svg
+                        cIcon
+                        name="cil-x"
+                        size="sm"
+                        title="Paper Plane Icon"
+                      ></svg>
+                    </button>
+                  </ng-template>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <c-modal
+          id="liveDemoModal"
+          [visible]="visible"
+          (visibleChange)="handleLiveDemoChange($event)"
+        >
+          <c-modal-header>
+            <h5 cModalTitle>Confirmation</h5>
+            <button (click)="toggleLiveDemo()" cButtonClose></button>
+          </c-modal-header>
+          <c-modal-body>Voulez vous supprimer cet utilisateur ?</c-modal-body>
+          <c-modal-footer>
+            <button (click)="toggleLiveDemo()" cButton color="primary">
+              Non
+            </button>
+            <button cButton color="secondary" (click)="deleteUser()">
+              Oui
+            </button>
+          </c-modal-footer>
+        </c-modal>
+      </c-col>
+    </c-row>
+  </c-card-body>
+</c-card>
+
+<c-toaster placement="top-end" position="fixed" style="padding: 10px">
+  <c-toast
+    [autohide]="true"
+    [delay]="2500"
+    [(visible)]="errorModification"
+    color="danger"
+  >
+    <c-toast-body>
+      <div class="me-auto">Erreur lors de la modification</div>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>
+
+<c-toaster placement="top-end" position="fixed" style="padding: 10px">
+  <c-toast
+    [autohide]="true"
+    [delay]="2500"
+    [(visible)]="sucessModification"
+    color="success"
+  >
+    <c-toast-body>
+      <div class="me-auto">L'utlisateur a été modifié</div>
+    </c-toast-body>
+  </c-toast>
+</c-toaster>

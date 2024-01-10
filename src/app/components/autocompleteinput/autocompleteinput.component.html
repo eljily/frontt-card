@@ -1,0 +1,29 @@
+<div>
+  <input
+    id="searchInput"
+    #searchInput
+    [placeholder]="placeholder"
+    class="form-control"
+    type="text"
+    autocomplete="off"
+    (focus)="showSearches = true"
+    (blur)="showSearches = false"
+    (keyup)="search()"
+  />
+</div>
+<div class="card" style="position: absolute w-100" [hidden]="!showSearches">
+  <div class="search">
+    <div
+      id="object.id"
+      class="search-result"
+      *ngFor="let object of searchedObject; trackBy: trackById"
+      tappable
+      (mousedown)="setObject(object)"
+    >
+      {{ formatData(object) }}
+    </div>
+  </div>
+  <p class="search" *ngIf="searchedObject && searchedObject.length <= 0">
+    No item found
+  </p>
+</div>

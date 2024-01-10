@@ -1,0 +1,75 @@
+<c-container>
+  <c-card class="mb-4 card">
+    <c-card-body>
+      <c-row>
+        <c-col>
+          <h1>Demande {{ request?.id }}</h1>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <strong>Numéro de compte</strong><br />
+          <c-header-text>{{ request?.account?.accountNumber }}</c-header-text>
+        </c-col>
+        <c-col>
+          <strong>Créateur</strong><br />
+          <c-header-text>{{ request?.user?.username }}</c-header-text>
+        </c-col>
+        <c-col>
+          <strong>Type de carte</strong><br />
+          <c-header-text>{{ request?.cardType?.label }}</c-header-text>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <strong>Date de création</strong><br />
+          <c-header-text>{{ request?.creationDate | date }}</c-header-text>
+        </c-col>
+        <c-col>
+          <strong>Nom sur la carte</strong><br />
+          <c-header-text>{{ request?.nameOnCard }}</c-header-text>
+        </c-col>
+        <c-col>
+          <strong>Limite de la carte</strong><br />
+          <c-header-text>{{ request?.cardLimit }}</c-header-text>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <strong>Mois de renouvellement</strong><br />
+          <c-header-text>{{ request?.renewMonth }}</c-header-text>
+        </c-col>
+        <c-col>
+          <strong>Date d'envoie d'sms</strong><br />
+          <c-header-text>{{ request?.smsSentDate | date }}</c-header-text>
+        </c-col>
+        <c-col>
+          <strong>Langue de sms</strong><br />
+          <c-header-text>{{ request?.smsLang }}</c-header-text>
+        </c-col>
+      </c-row>
+      <c-row *ngIf="request?.card" class="row-detail">
+        <c-col>
+          <strong>Numero de carte</strong><br />
+          <c-header-text>{{ request?.card }}</c-header-text>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <strong>Observation</strong><br />
+          <c-header-text>{{ request?.observation }}</c-header-text>
+        </c-col>
+      </c-row>
+      <c-row class="row-detail">
+        <c-col>
+          <strong>Raison de rejet</strong><br />
+          <c-header-text>{{ request?.rejectionReason }}</c-header-text>
+        </c-col>
+      </c-row>
+    </c-card-body>
+  </c-card>
+</c-container>
+
+<!-- 
+card:string;
+-->

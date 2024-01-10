@@ -1,0 +1,66 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="6">
+        <c-card class="p-4">
+          <c-card-body>
+            <form cForm>
+              <h1>Login</h1>
+              <p class="text-medium-emphasis">Sign In to your account</p>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input
+                  autoComplete="username"
+                  cFormControl
+                  name="username"
+                  [(ngModel)]="user.username"
+                  placeholder="Username"
+                />
+              </c-input-group>
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input
+                  autoComplete="current-password"
+                  [(ngModel)]="user.password"
+                  cFormControl
+                  placeholder="Password"
+                  name="password"
+                  type="password"
+                />
+              </c-input-group>
+              <c-row>
+                <c-col xs="6">
+                  <button
+                    cButton
+                    class="px-4"
+                    color="primary"
+                    (click)="login()"
+                  >
+                    Login
+                  </button>
+                </c-col>
+              </c-row>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+
+  <c-toaster placement="top-end" position="fixed" style="padding: 10px">
+    <c-toast
+      [autohide]="true"
+      [delay]="2500"
+      [(visible)]="errorModification"
+      color="danger"
+    >
+      <c-toast-body>
+        <div class="me-auto">Login ou mot de passe est incorrect</div>
+      </c-toast-body>
+    </c-toast>
+  </c-toaster>
+</div>

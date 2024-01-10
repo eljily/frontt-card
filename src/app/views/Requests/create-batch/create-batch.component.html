@@ -1,0 +1,23 @@
+<c-row class="row-detail">
+  <c-col>
+    <div [cFormFloating]="true" class="mb-3">
+      <input
+        cFormControl
+        id="batchLabel"
+        [(ngModel)]="request.lib"
+        [valid]="validation.batchLabel ? false : undefined"
+      />
+      <label cLabel for="batchLabel">Batch Label</label>
+      <c-form-feedback [valid]="validation.batchLabel ? false : undefined">
+        {{ validation.batchLabel }}
+      </c-form-feedback>
+    </div>
+  </c-col>
+</c-row>
+
+<c-row class="row-detail justify-content-md-center">
+  <c-col>
+    <button cButton color="dark" (click)="saveBatchLabel()">Creer</button>
+  </c-col>
+</c-row>
+
